@@ -46,6 +46,10 @@ public:
 		return entity_id_map[entity];
 	}
 
+	void SetEntityID(const Entity &entity, const ID entity_id) {
+		entity_id_map[entity] = entity_id;
+	}
+
 	std::map<Entity, ID>& GetEntityIDArray() {
 		return entity_id_map;
 	}

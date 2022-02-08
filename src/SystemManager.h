@@ -27,12 +27,25 @@ public:
 		const auto& component_id = 1 << component_manager->GetComponentType<T>();
 
 		for (const auto& pair: system_index_map) {
-			// if (pair.first & component_id)
+			if (pair.first & component_id) {
 				if (entity_id & pair.first) {
 					system_array[pair.second].insert(entity);
 				} else {
 					system_array[pair.second].erase(entity);
 				}
+			}
+		}
+	}
+
+	void EntityIDChanged(const Entity &entity) {
+		const auto& entity_id = entity_manager->GetEntityID(entity);
+
+		for (const auto& pair: system_index_map) {
+			if (entity_id & pair.first) {
+				system_array[pair.second].insert(entity);
+			} else {
+				system_array[pair.second].erase(entity);
+			}
 		}
 	}
 

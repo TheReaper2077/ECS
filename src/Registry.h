@@ -21,9 +21,17 @@ public:
 		return entity_manager->CreateEntity();
 	}
 
-	template <typename T>
+	template <typename ...T>
 	Entity CreateEntity() {
-		
+		ID temp_id = 0;
+		for (const auto& component_name: {typeid(T).name()...}) {
+			temp_id |= 1 << component_manager->GetComponentType(component_name);
+		}
+
+		auto entity = entity_manager->CreateEntity();
+		entity_manager->SetEntityID(entity, temp_id);
+		system_manager->EntityIDChanged(entity);
+		return entity;
 	}
 
 	template <typename T>
