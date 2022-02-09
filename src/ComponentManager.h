@@ -32,20 +32,22 @@ public:
 	}
 
 	void Remove(const Entity &entity) {
-		assert(entity_index_map.find(entity) != entity_index_map.end());
-		next_index--;
+		// assert(entity_index_map.find(entity) != entity_index_map.end());
+		if (entity_index_map.find(entity) != entity_index_map.end()) {
+			next_index--;
 
-		unsigned int index_removed = entity_index_map[entity];
-		Entity last_entity = index_entity_map[next_index];
-		
-		entity_index_map[index_removed] = last_entity;
-		index_entity_map[last_entity] = next_index;
+			unsigned int index_removed = entity_index_map[entity];
+			Entity last_entity = index_entity_map[next_index];
+			
+			entity_index_map[index_removed] = last_entity;
+			index_entity_map[last_entity] = next_index;
 
-		component_data_array[index_removed] = component_data_array[next_index];
+			component_data_array[index_removed] = component_data_array[next_index];
 
-		component_data_array.pop_back();
-		entity_index_map.erase(entity);
-		index_entity_map.erase(next_index);
+			component_data_array.pop_back();
+			entity_index_map.erase(entity);
+			index_entity_map.erase(next_index);
+		}
 	}
 
 	T& Get(const Entity &entity) {
@@ -55,9 +57,7 @@ public:
 	}
 
 	void DestroyEntity(const Entity &entity) {
-		if (entity_index_map.find(entity) != entity_index_map.end()) {
-			Remove(entity);
-		}
+		Remove(entity);
 	}
 };
 
