@@ -39,19 +39,35 @@ public:
 		component_manager->Register<T>();
 	}
 
-	template <typename T>
-	void AddComponent(const Entity &entity, T data) {
+	template <typename T, typename ...M>
+	void AddComponent(const Entity &entity, T data, M ...dataM) {
 		entity_manager->AddComponent<T>(entity);
 		component_manager->AddComponent<T>(entity, data);
-		system_manager->EntityIDChanged<T>(entity);
+
+		AddComponent(entity, dataM...);
+	}
+
+	void AddComponent(const Entity &entity) {
+		system_manager->EntityIDChanged(entity);
 	}
 
 	template <typename T>
 	void RemoveComponent(const Entity &entity) {
 		entity_manager->RemoveComponent<T>(entity);
 		component_manager->RemoveComponent<T>(entity);
-		system_manager->EntityIDChanged<T>(entity);
+		system_manager->EntityIDChanged(entity);
 	}
+
+	// template <typename ...T>
+	// void RemoveComponent(const Entity &entity) {
+	// 	ID temp_id = 0;
+	// 	for (const auto& component_name: {typeid(T).name()...}) {
+	// 		temp_id &= !(1 << component_manager->GetComponentType(component_name));
+	// 	}
+
+	// 	entity_manager->SetEntityID(entity, temp_id);
+	// 	system_manager->EntityIDChanged(entity);
+	// }
 
 	template <typename T>
 	T& GetComponent(const Entity &entity) {
