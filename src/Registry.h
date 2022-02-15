@@ -7,12 +7,12 @@
 class Registry {
 private:
 	Registry() {}
-	EntityManager *entity_manager = EntityManager::sharedInstance();
-	ComponentManager *component_manager = ComponentManager::sharedInstance();
+	EntityManager *entity_manager = EntityManager::SharedInstance();
+	ComponentManager *component_manager = ComponentManager::SharedInstance();
 	SystemManager *system_manager = SystemManager::sharedInstance();
 
 public:
-	static Registry *sharedInstance() {
+	static Registry *SharedInstance() {
 		static Registry instance;
 		return &instance;
 	}
@@ -80,7 +80,7 @@ public:
 	}
 
 	template <typename ...T>
-	std::set<Entity>& View() {
-		system_manager->CreateView<T...>();
+	std::shared_ptr<System> View() {
+		return system_manager->CreateView<T...>();
 	}
 };

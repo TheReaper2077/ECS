@@ -38,14 +38,16 @@ int main(int, char**) {
 
 	std::cout << "entity" << std::endl;
 
-	const auto& entities = registry->View<Vel>();
-	for (const auto& entity: entities) {
+	const auto& system = registry->View<Vel, Pos>();
+
+	for (const auto& entity: system->entities) {
 		std::cout << entity << std::endl;
 	}
 
-	registry->RemoveComponent<Vel>(player1);
+	system->Filter<Vel>();
+	// registry->RemoveComponent<Vel>(player1);
 
-	for (const auto& entity: entities) {
+	for (const auto& entity: system->entities) {
 		std::cout << entity << std::endl;
 	}
 }

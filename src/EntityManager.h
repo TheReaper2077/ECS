@@ -10,10 +10,10 @@ private:
 	Entity next_entity;
 
 	EntityManager(): next_entity(0) {}
-	ComponentManager *component_manager = ComponentManager::sharedInstance();
+	ComponentManager *component_manager = ComponentManager::SharedInstance();
 
 public:
-	static EntityManager *sharedInstance() {
+	static EntityManager *SharedInstance() {
 		static EntityManager instance;
 		return &instance;
 	}

@@ -71,7 +71,7 @@ private:
 
 	ComponentManager(): next_component_type(0) {}
 public:
-	static ComponentManager *sharedInstance() {
+	static ComponentManager *SharedInstance() {
 		static ComponentManager instance;
 		return &instance;
 	}
