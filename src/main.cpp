@@ -11,7 +11,7 @@ struct Vel {
 };
 
 int main(int, char**) {
-	Registry *registry = Registry::sharedInstance();
+	Registry *registry = Registry::SharedInstance();
 
 	registry->Register<Vel>();
 	registry->Register<Pos>();
